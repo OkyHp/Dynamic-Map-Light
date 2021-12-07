@@ -1,0 +1,41 @@
+name: Build Workflow
+
+on: 
+  push:
+    branches:
+    - main
+  pull_request:
+    branches:
+    - main
+
+jobs:
+  run:
+    name: Run action
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: --- Checkout repository
+      uses: actions/checkout@v1
+    
+    - name: --- Setup SourcePawn Compiler
+      uses: rumblefrog/setup-sp@master
+      with:
+        version: "1.10.x"
+    
+    - name: --- Verify compiler
+      run: |
+        which spcomp
+        mkdir -p plugins
+        spcomp -i$includePath scripting/ActiveSky.sp -O2 -v2 -oplugins/ActiveSky.smx
+    - name: --- Build project
+      run: |
+        zip -rv ActiveSky plugins scripting
+    
+    - name: --- Release
+      uses: softprops/action-gh-release@v1
+      with:
+        draft: true
+        name: Release
+        body: Release text
+        files: |
+          ActiveSky.zip
