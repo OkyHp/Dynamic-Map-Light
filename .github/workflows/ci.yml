@@ -26,10 +26,10 @@ jobs:
       run: |
         which spcomp
         mkdir -p plugins
-        spcomp -i$includePath scripting/ActiveSky.sp -O2 -v2 -oplugins/ActiveSky.smx
+        spcomp -i$includePath scripting/DynamicMapLight.sp -O2 -v2 -oplugins/DynamicMapLight.smx
     - name: --- Build project
       run: |
-        zip -rv ActiveSky plugins scripting
+        zip -rv DynamicMapLight plugins scripting
     
     - name: --- Release
       uses: softprops/action-gh-release@v1
@@ -38,4 +38,4 @@ jobs:
         name: Release
         body: Release text
         files: |
-          ActiveSky.zip
+          DynamicMapLight.zip
